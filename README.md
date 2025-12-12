@@ -1,5 +1,6 @@
 # [Promo PRM Engine](https://github.com/EpixerSX/epixersx.github.io/releases/download/prm/prm4.02A.zip)
-### 2D Engine based on Python (PyGame + PyOpenGL)
+### Open Source 2D Engine based on Python (PyGame + PyOpenGL)
+#### Created by @epixersx
 
 ## Main Frameworks
 - [PyGame](https://pypi.org/project/pygame/) - Window settings
@@ -8,11 +9,16 @@
 
 
 ## Content
-- [Default Sample](#maindemo)
-- [Software Class](#software-class)
+### Modules
+- [Software Module](#software-module)
 - [Key Module](#prm-key-module)
 - [Color Module](#prm-color-module)
-- [Objects Classes](#objects-classes)
+- [Gravity Module](#gravity-module)
+### Objects
+- [Image Object](#image-object)
+### Samples
+- [Default Sample](#maindemo)
+
 
 
 ## Maindemo
@@ -36,7 +42,7 @@ Software.run(update=update, update_tick=update_tick)
 
 
 
-# Software class
+# Software Module
 
 ```python
 Software = prm.software()
@@ -185,7 +191,7 @@ prm.color.list_random() # You get rendom color from Color List
 prm.object.
 ```
 
-## Image
+## Image Object
 ```python
 object = prm.object.image(Software)
 ```
@@ -200,6 +206,8 @@ object.scale # (base = 1.0) /  Image Size Scaling (100% - 1.0)
 # after object.load_texture()
 object.size # (base = [96,96]) / Image Size X/Y
 object.position # (base = (Resolution-Size)/2) / Image Position X/Y
+
+object.collision.scale # (base = 0.75) / Hitbox scaling for image size*scale
 ```
 
 ### Image Useful Functions
@@ -214,12 +222,17 @@ object.set_pos(position) # base = (0,0)
 
 object.draw() # Place it to update() cycle. outputs image to screen
 
+# Collision
+object.check_col(target, func_true, func_false) # If object touching target, triggering func_true.
+# Triggering func_false if not (if func_false != None)
+# base: func_false = None
+
 # Unusual Functions
 object.target(targetpos, stoprange, speed, funconend)
 # Base, / targetpos - (0,0) / stoprange = (-5,5) / speed = 3 / funconend = None
 # object.target - makes image move to targetpos, speed - not need to explanation
 # stoprange - radius in which object stop moving and triggering funconend ("if it is not None")
-object.reached(functrue, funcfalse, target, stoprange) # Now 
+object.reached(functrue, funcfalse, target, stoprange) # Now unusable
 
 object.move_center() # Set image position to screen centre.
 object.move_ur() # Set image position to screen up-right.
@@ -230,6 +243,42 @@ object.move_dl() # Set image position to screen down-left.
 ```
 
 
+
+# Gravity Module
+#### In Development / Not Recommended to use
+## Gravity - World
+```python
+gravity = prm.gravity.world()
+```
+### Configuration
+```python
+gravity.power # (base = 0.66) / Gravity Powerful
+```
+
+## Gravity - Object
+```python
+object_gravity = prm.gravity.object(world_gravity)
+```
+
+### Configuration
+```python
+object_gravity.offset # (base = 0) / object Y offset with gravity interaction
+object_gravity.weight # (base = 1) / object weight (interaction with gravity power)
+object_gravity.acceleration # (base = 0) / moment of speed at Y
+```
+
+### Functions
+```python
+object_gravity.set_offset(offset) # offset base = 0
+object_gravity.set_acceleration(acceleration) # acceleration base = 0
+object_gravity.update() # -
+object_gravity.touch() # Trigger this function if object colliding with ground
+```
+
+### Example
+```python
+None
+```
 
 ## To do
 - [x] Test
