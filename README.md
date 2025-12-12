@@ -1,17 +1,22 @@
-# Promo PRM
-2D Engine based on Python (Pygame + PyOpenGL)
+# Promo PRM Engine 
+### 2D Engine based on Python (PyGame + PyOpenGL)
 
-## Содержание
-- [Базовый скрипт](#maindemo)
-- [Начало работы](#начало-работы)
-- [Тестирование](#тестирование)
-- [Deploy и CI/CD](#deploy-и-ci/cd)
-- [Contributing](#contributing)
-- [To do](#to-do)
-- [Команда проекта](#команда-проекта)
+## Main Frameworks
+- [PyGame](https://pypi.org/project/pygame/) - Window settings
+- [PyOpenGL](https://pypi.org/project/PyOpenGL/) - Graphic output
+### 🔗 [About OpenGL (Open Graphics Library)](https://ru.wikipedia.org/wiki/OpenGL)
+
+
+## Content
+- [Default Sample](#maindemo)
+- [Software Class](#software-class)
+- [Key Module](#prm-key-module)
+- [Color Module](#prm-color-module)
+- [Objects Classes](#objects-classes)
+
 
 ## Maindemo
-```
+```python
 import engine.promo as prm
 
 Software = prm.software()
@@ -27,73 +32,206 @@ def update_tick():
 Software.run(update=update, update_tick=update_tick)
 ```
 
-## Использование
-Расскажите как установить и использовать ваш проект, покажите пример кода:
 
-Установите npm-пакет с помощью команды:
-```sh
-$ npm i your-awesome-plugin-name
+
+
+
+# Software class
+
+```python
+Software = prm.software()
+
+# There you can place Software settings
+
+Software.initialize()
 ```
 
-И добавьте в свой проект:
-```typescript
-import { hi } from "your-awesome-plugin-name";
+### Software Configuration (Main)
+```python
+Software.RESOLUTION # (base = [1300,800]) / App Size (Pixels)
+Software.FPS # (base = 120) / main update() function activations per second
+Software.TITLE # (base = "PRM") / App Title
+Software.TICKRATE # (base = 30) / cycle update_tick() activations per second 
+Software.SyncLock # (base = False) / FPS Lock on main display hertz clock
+Software.VSync # (base = False) / Vertical Synchronization
+```
+#### 🔗 [About VSync (Vertical Synchronization) ](https://steamcommunity.com/discussions/forum/1/648817377892882003/?l=hungarian)
 
-hi(); // Выведет в консоль "Привет!"
+### Software Configuration (Other)
+```python
+Software.adaptive_keybind # (base = True) / limits the number of keybind activations accepted by engine per second
+Software.keybind_rate # (base = 60) / keybind per second limit
+# For example: Player moving with 240 fps faster then 120 or lower, but adaptive_keybind fixing it
+```
+#### and you can get from Software
+```python
+Software.refresh_rate # Main display Hertz Clock
 ```
 
-## Разработка
+## Software Useful Functions
+### Key Binds
 
-### Требования
-Для установки и запуска проекта, необходим [NodeJS](https://nodejs.org/) v8+.
+### Once activation
 
-### Установка зависимостей
-Для установки зависимостей, выполните команду:
-```sh
-$ npm i
+```python
+Software.bindkey(key, func) # function argument func will activate ONCE if key got pressed
+```
+#### Example:
+```python
+def trigger():
+    print("Triggered")
+
+Software.bindkey(prm.key["space"], trigger)
+
+# But if function have arguments or not working
+
+Software.bindkey(prm.key["space"], lambda: print("Triggered"))
+```
+### PRM Key Module
+all english alphabet (non caps)
+#### Special keys
+alt, right_alt, shift, right_shift, space, ctrl
+right_ctrl, tab, caps, esc, enter
+
+### Multy activations
+```python
+Software.bindhold(key, func) # function argument func will activate MULTY if key got pressed
+```
+#### Example:
+```python
+# all same as bindkey but minor changes
 ```
 
-### Запуск Development сервера
-Чтобы запустить сервер для разработки, выполните команду:
-```sh
-npm start
+### set_
+```python
+# I think this not need any explanation.
+Software.set_title(title)
+Software.set_resolution(resolution)
 ```
 
-### Создание билда
-Чтобы выполнить production сборку, выполните команду: 
-```sh
-npm run build
+### Bind Button / Mouse Click Check / Mouse Hold Check
+
+#### Bind Button
+```python
+Software.bindbutton(object, func, mode)
+
+# This function making graphic object clickable to lmb.
+# Mode == "up" or "down", default mode = "up"
+# With mode "up" you func activation after let lmb.
+# With mode "down" you func activation with lmb press
+
+```
+#### Example:
+```python
+# Read a bindkey / binhold function before this
+
+points = 0
+def click(count = 1):
+    global points
+    points += count
+
+Software.bindbutton(coin, lambda: click(prm.rand(3,10)) # prm.rand(min, max) - random number
+ 
 ```
 
-## Тестирование
-Какие инструменты тестирования использованы в проекте и как их запускать. Например:
 
-Наш проект покрыт юнит-тестами Jest. Для их запуска выполните команду:
-```sh
-npm run test
+
+#### Mouse Click Check
+```python
+Software.is_clicked(functrue, funcfalse) # funcfalse base - None
+# Mouse lmb click in general.
+# functrue triggering if lmb clicked
+# funcfalse triggering if lmb click not yet clicked
+```
+#### Example
+```python
+# Place in update() function
+
+def clicked():
+    print("Mouse Clicked")
+
+Software.is_clicked(functrue = clicked)
+# or use "lambda: " if you function have arguments
+
 ```
 
-## Deploy и CI/CD
-Расскажите, как развернуть приложение. Как запустить пайплайны и т.д.
+#### Mouse Hold Check
+```python
+Software.is_holding(functrue, funcfalse) # funcfalse base - None
+```
+#### Example
+```python
+# all same as Mouse Click Check but minor changes
+```
 
-## Contributing
-Как помочь в разработке проекта? Как отправить предложение или баг-репорт. Как отправить доработку (оформить pull request, какие стайлгайды используются). Можно вынести в отдельный файл — [Contributing.md](./CONTRIBUTING.md).
+### PRM Color Module
+```python
+prm.color._color_
+```
+#### Color List
+```
+gray / black / white / green / red / blue / purple
+cyan / orange / violet / yellow / dark_gray / light_gray
+```
+#### Other Functions:
+```python
+prm.color.random_color() # You get Fully random RGBA OpenGL Color (0.0-1.0)x3
+prm.color.list_random() # You get rendom color from Color List 
+```
 
-## FAQ 
-Если потребители вашего кода часто задают одни и те же вопросы, добавьте ответы на них в этом разделе.
 
-### Зачем вы разработали этот проект?
-Чтобы был.
+# Objects Classes
+```python
+prm.object.
+```
+
+## Image
+```python
+object = prm.object.image(Software)
+```
+
+### Configuration
+```python
+object.image # Write "file_name.extension", Place you image to engine\images
+object.flip # (base = False, True) / Image Flip X/Y
+object.color # (base = prm.color.white) / Image Coloring
+object.rotation # (base = 0) / Image Rotation (Degrees)
+object.scale # (base = 1.0) /  Image Size Scaling (100% - 1.0)
+# after object.load_texture()
+object.size # (base = [96,96]) / Image Size X/Y
+object.position # (base = (Resolution-Size)/2) / Image Position X/Y
+```
+
+### Image Useful Functions
+```python
+object.rotate(angle) # base = 0
+object.move(pos) # base = [0,0]
+
+# Not need to explanation
+object.get_size()
+object.get_pos()
+object.set_pos(position) # base = (0,0)
+
+object.draw() # Place it to update() cycle. outputs image to screen
+
+# Unusual Functions
+object.target(targetpos, stoprange, speed, funconend)
+# Base, / targetpos - (0,0) / stoprange = (-5,5) / speed = 3 / funconend = None
+# object.target - makes image move to targetpos, speed - not need to explanation
+# stoprange - radius in which object stop moving and triggering funconend ("if it is not None")
+object.reached(functrue, funcfalse, target, stoprange) # Now 
+
+object.move_center() # Set image position to screen centre.
+object.move_ur() # Set image position to screen up-right.
+object.move_ul() # Set image position to screen up-left.
+object.move_dr() # Set image position to screen down-right.
+object.move_dl() # Set image position to screen down-left.
+
+```
+
+
 
 ## To do
-- [x] Добавить крутое README
-- [ ] Всё переписать
-- [ ] ...
+- [x] Test
+- [ ] Test
 
-## Команда проекта
-Оставьте пользователям контакты и инструкции, как связаться с командой разработки.
-
-- [Богдан Звягинцев](tg://resolve?domain=bzvyagintsev) — Front-End Engineer
-
-## Источники
-Если вы чем-то вдохновлялись, расскажите об этом: где брали идеи, какие туториалы смотрели, ссылки на исходники кода. 
