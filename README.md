@@ -1,8 +1,8 @@
-# Название проекта
-Добавьте краткое описание проекта, опишите какую задачу он решает. 1-3 предложения будет достаточно. Добавьте бейджи для важных статусов проекта: статус разработки (в разработке, на поддержке и т.д.), статус билда, процент покрытия тестами и тд.
+# Promo PRM
+2D Engine based on Python (Pygame + PyOpenGL)
 
 ## Содержание
-- [Технологии](#технологии)
+- [Базовый скрипт](#maindemo)
 - [Начало работы](#начало-работы)
 - [Тестирование](#тестирование)
 - [Deploy и CI/CD](#deploy-и-ci/cd)
@@ -10,10 +10,22 @@
 - [To do](#to-do)
 - [Команда проекта](#команда-проекта)
 
-## Технологии
-- [GatsbyJS](https://www.gatsbyjs.com/)
-- [TypeScript](https://www.typescriptlang.org/)
-- ...
+## Maindemo
+```
+import engine.promo as prm
+
+Software = prm.software()
+Software.initialize()
+
+
+def update():
+    pass
+
+def update_tick():
+    pass
+
+Software.run(update=update, update_tick=update_tick)
+```
 
 ## Использование
 Расскажите как установить и использовать ваш проект, покажите пример кода:
