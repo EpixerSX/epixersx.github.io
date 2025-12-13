@@ -14,8 +14,11 @@
 - [Key Module](#prm-key-module)
 - [Color Module](#prm-color-module)
 - [Gravity Module](#gravity-module)
+- [Collision Module](#collision-module)
+- [Data Saving Module](#value-module)
 ### Objects
 - [Image Object](#image-object)
+- [Text Object](#text-object)
 ### Samples
 - [Default Sample](#maindemo)
 
@@ -241,6 +244,27 @@ object.move_dr() # Set image position to screen down-right.
 object.move_dl() # Set image position to screen down-left.
 
 ```
+## Text Object
+```python
+text = prm.object.text(Software)
+```
+
+### Configuration
+```python
+text.color # (base = prm.color.white) / Text Color
+text.font # (base = None) / Text Special Font
+text.font_scale # (base = 48) / Font Scaling
+text.text # (base = "text") / Text
+text.position # (base = [100, 100]) / Position on Screen X/Y
+text.size # (base = [0, 0]) / Text Size X/Y
+text.scale # (base = 1.0) / 1.0 - 100% / Text Size Scaling
+text.flip # (base = [False, True]) / Text Filp X/Y
+```
+### Functions
+```python
+text.draw() # Place it to update() cycle. outputs image to screen
+text.edit(text, color) # (base text = None, base color = None)
+```
 
 
 
@@ -279,6 +303,67 @@ object_gravity.touch() # Trigger this function if object colliding with ground
 ```python
 None
 ```
+
+# Collision Module
+
+```python
+col = prm.collision(position, size, object_scale) # object_scale base = 1.0
+```
+### Configuration
+```python
+col.scale # base = 0.75 
+```
+### Functions
+```python
+col.update_collisionz(position, size)
+col.collide_check(object)
+```
+
+# Value Module
+```python
+val = prm.VALUE(name, base)
+# name - File name on you PC 
+# base - Value (INT/FLOAT) with whom value creating (If file uncreated), base = 0.0
+```
+### Functions
+```python
+val.get_value() # Returns a current value
+val.add_value(count) # (base count = 1.0) / Increases Value on count
+val.set_value(count) # (base count = 0.0) / Set Value on count
+val.save() # Saving Value on PC
+```
+#### Configuration (Other)
+##### File engine/config.py
+Default
+```python
+project = {
+    "name": "PRM_GRAPHICS_ENGINE",
+    "version": "0.0.0A",
+    "creators": "@epixersx",
+    "saves_format": ".sv"
+}
+```
+##### File Saving+
+File saving at 
+current_user/Documents/config.project["name"]/val.name/config.project["saves_format"]
+
+### Example
+```python
+points = prm.VALUE("points")
+points.set_value(10)
+print(points.get_value())
+points.save()
+
+# File:
+# C:\Users\EpixerSX\Documents\PRM_GRAPHICS_ENGINE\points.sv
+# points.sv Value - 10.0
+```
+
+
+
+
+
+
 
 ## To do
 - [x] Test
