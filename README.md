@@ -1,10 +1,10 @@
-# [Promo PRM Engine](https://github.com/EpixerSX/epixersx.github.io/releases/download/prm/prm4.02A.zip)
+# [Promo PRM Engine](https://github.com/EpixerSX/epixersx.prm.engine/releases/download/prm03/prm4.03.zip) (v4.03)
 ### Open Source 2D Engine based on Python (PyGame + PyOpenGL)
 #### Created by @epixersx
 
 ## Main Frameworks
-- [PyGame](https://pypi.org/project/pygame/) - Window settings
-- [PyOpenGL](https://pypi.org/project/PyOpenGL/) - Graphic output
+- [PyGame](https://pypi.org/project/pygame/) - Workplace
+- [PyOpenGL](https://pypi.org/project/PyOpenGL/) - Graphics
 ### 🔗 [About OpenGL (Open Graphics Library)](https://ru.wikipedia.org/wiki/OpenGL)
 
 
@@ -213,6 +213,29 @@ object.position # (base = (Resolution-Size)/2) / Image Position X/Y
 object.collision.scale # (base = 0.75) / Hitbox scaling for image size*scale
 ```
 
+### Image Animation System
+Created - 4.03 // Updated - 4.03
+#### Functional
+```python
+image.add_animation(name, frames, speed, loop) # Base speed = 0.1, loop = True
+image.play_animation(animation)
+image.stop_animation()
+```
+#### Example
+```python
+player.add_animation(
+    name = "Run",
+    frames = ["player_run0.png", "player_run1.png", "player_run2.png"],
+    speed = 0.075,
+    loop = True
+)
+
+player.play_animation("Run")
+```
+
+
+
+
 ### Image Useful Functions
 ```python
 object.rotate(angle) # base = 0
@@ -244,6 +267,17 @@ object.move_dr() # Set image position to screen down-right.
 object.move_dl() # Set image position to screen down-left.
 
 ```
+### Image Example
+```python
+image = prm.object.image(Software)
+image.image = "image.png"
+image.load_texture()
+```
+Update
+```python
+image.draw()```
+
+
 ## Text Object
 ```python
 text = prm.object.text(Software)
